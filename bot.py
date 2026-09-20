@@ -1,5 +1,7 @@
 import logging
 import os
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 import google.generativeai as genai
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
@@ -76,5 +78,18 @@ def main():
     print("🤖 ቦቱ በስራ ላይ ነው...")
     app.run_polling()
 
+# ================= የPort ማዳመጫ (Render እንዲያረጋግጥ) =================
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+def run_health_server():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+    server.serve_forever()
+
 if __name__ == "__main__":
+    threading.Thread(target=run_health_server, daemon=True).start()
     main()
