@@ -51,7 +51,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if is_member:
             await query.message.edit_text("✅ አባልነትዎ ተረጋግጧል!\n\n🤖 ማንኛውንም ፅሁፍ ይላኩ፣ AI መልስ ይሰጣል።")
         else:
-            await query.answer("❌ እባክዎ መጀመሪያ ቻናሉን ይቀላቀሉ!", show_alert=True)
+            await query.answer("❌ እባክዎ መጀመሪያ ቻናሉን ይቀላሉ!", show_alert=True)
 
 async def ai_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -88,8 +88,4 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
 def run_health_server():
     port = int(os.environ.get("PORT", 8080))
     server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
-    server.serve_forever()
-
-if __name__ == "__main__":
-    threading.Thread(target=run_health_server, daemon=True).start()
-    main()
+    server.ser
