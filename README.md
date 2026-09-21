@@ -1,2 +1,2 @@
-# -Ab_tech1_bot
+# Amharic_tech_bot
 Telegram AI Bot
